@@ -1,8 +1,8 @@
 //
 //  EmotionEstimationView.swift
-//  SwiftLlamaApp
 //
 //  Created by miwa on 2023/12/17.
+//  Modified by Yos 2024
 //
 
 import SwiftUI

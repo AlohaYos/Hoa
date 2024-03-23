@@ -1,14 +1,14 @@
 //
-//  SwiftLlamaApp.swift
-//  SwiftLlamaApp
+//  Hoa.swift
 //
-//  Created by miwa on 2023/11/25.
+//  Created by Yos on 2024/03/23.
+//  Modified by Yos 2024
 //
 
 import SwiftUI
 
 @main
-struct SwiftLlamaApp: App {
+struct Hoa: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

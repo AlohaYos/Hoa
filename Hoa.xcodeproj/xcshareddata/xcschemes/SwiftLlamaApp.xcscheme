@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "558E03622B1181600059048D"
-               BuildableName = "SwiftLlamaApp.app"
-               BlueprintName = "SwiftLlamaApp"
-               ReferencedContainer = "container:SwiftLlamaApp.xcodeproj">
+               BuildableName = "Hoa.app"
+               BlueprintName = "Hoa"
+               ReferencedContainer = "container:Hoa.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "558E03622B1181600059048D"
-            BuildableName = "SwiftLlamaApp.app"
-            BlueprintName = "SwiftLlamaApp"
-            ReferencedContainer = "container:SwiftLlamaApp.xcodeproj">
+            BuildableName = "Hoa.app"
+            BlueprintName = "Hoa"
+            ReferencedContainer = "container:Hoa.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "558E03622B1181600059048D"
-            BuildableName = "SwiftLlamaApp.app"
-            BlueprintName = "SwiftLlamaApp"
-            ReferencedContainer = "container:SwiftLlamaApp.xcodeproj">
+            BuildableName = "Hoa.app"
+            BlueprintName = "Hoa"
+            ReferencedContainer = "container:Hoa.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

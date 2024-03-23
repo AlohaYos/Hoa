@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  SwiftLlamaApp
 //
 //  Created by miwa on 2023/11/25.
+//  Modified by Yos 2024
 //
 
 import SwiftUI

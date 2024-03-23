@@ -1,8 +1,8 @@
 //
 //  LlamaContext.swift
-//  SwiftLlamaApp
 //
 //  Created by miwa on 2023/12/16.
+//  Modified by Yos 2024
 //
 import llama
 import Foundation
