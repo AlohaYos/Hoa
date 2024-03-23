@@ -40,15 +40,18 @@ class LlamaState: ObservableObject {
     private var generatingMessage: String = ""
     private var llamaContext: LlamaContext?
     private var modelUrl: URL? {
-        #if os(macOS)
-        Bundle.main.url(forResource: "ELYZA-japanese-Llama-2-7b-instruct-q4_K_M", withExtension: "gguf")
-        #elseif os(iOS)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            Bundle.main.bundleURL.appending(path: "ELYZA-japanese-Llama-2-7b-instruct-q4_K_M.gguf")
-        } else {
-            Bundle.main.bundleURL.appending(path: "tinyllama-1.1b-intermediate-step-715k-1.5t.Q2_K.gguf")
-        }
-        #endif
+		#if os(macOS)
+		Bundle.main.url(forResource: "ELYZA-japanese-Llama-2-7b-instruct-q4_K_M", withExtension: "gguf")
+		#elseif os(iOS)
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			Bundle.main.bundleURL.appending(path: "tinyllama-1.1b-intermediate-step-715k-1.5t.Q2_K.gguf")	// M1 iPad pro
+		//            Bundle.main.bundleURL.appending(path: "ELYZA-japanese-Llama-2-7b-instruct-q4_K_M.gguf")
+		} else {
+			Bundle.main.bundleURL.appending(path: "tinyllama-1.1b-intermediate-step-715k-1.5t.Q2_K.gguf")
+		}
+		#elseif os(visionOS)
+		Bundle.main.url(forResource: "ELYZA-japanese-Llama-2-7b-instruct-q4_K_M", withExtension: "gguf")
+		#endif
     }
     init() {
         do {
