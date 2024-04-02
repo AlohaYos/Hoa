@@ -50,7 +50,8 @@ class LlamaState: ObservableObject {
 			Bundle.main.bundleURL.appending(path: "tinyllama-1.1b-intermediate-step-715k-1.5t.Q2_K.gguf")
 		}
 		#elseif os(visionOS)
-		Bundle.main.url(forResource: "ELYZA-japanese-Llama-2-7b-instruct-q4_K_M", withExtension: "gguf")
+		Bundle.main.url(forResource: "llama-2-7b-chat.Q2_K", withExtension: "gguf")
+//		Bundle.main.url(forResource: "ELYZA-japanese-Llama-2-7b-instruct-q4_K_M", withExtension: "gguf")
 		#endif
     }
     init() {

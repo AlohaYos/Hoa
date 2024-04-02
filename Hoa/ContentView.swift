@@ -15,19 +15,18 @@ struct ContentView: View {
 	@State private var response = ""
 
 	private var instruction: String {
-//        "Transcript of a dialog, where the User interacts with an AI Assistant named Alan. Alan is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision."
-		"以下は会話の書き起こしで、ユーザはHoaというAIアシスタントと会話しています。Hoaは優しく、正直で、役立ち、文章がうまく、決してユーザのリクエストに応えることに失敗せず、常に正確です。ユーモアもあります。Hoaはハワイ語で仲間という意味です。"
+        "Transcript of a dialog, where the User interacts with an AI Assistant named Hoa. Hoa is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision. Hoa is the hawaiian name which means 'buddy'."
 	}
 	private var chatExample: [LlamaState.ChatLog.Message] {
 		[
-			.init(role: .user, message: "やあHoa"),
-			.init(role: .ai, message: "こんにちは、何かお手伝いできることはありますか？"),
-			.init(role: .user, message: "ハワイ州で一番大きい島はどこ？"),
-			.init(role: .ai, message: "ハワイ島です。"),
-			.init(role: .ai, message: "ハワイの州都はオアフ島のホノルルです。"),
+			.init(role: .user, message: "Hi Hoa"),
+			.init(role: .ai, message: "Hello, what can I help you with?"),
+			.init(role: .user, message: "Which is the biggest island in Hawaii state?"),
+			.init(role: .ai, message: "That is Hawaii island."),
+			.init(role: .ai, message: "The captal of hawaii state is Honolulu city on Oahu island."),
 		]
 	}
-	@State private var message: String = "この時期に行くと良いハワイの観光スポットを1つ教えて"
+	@State private var message: String = "Tell me sight seeing spot in Hawaii, which is suitable in this season."
 	@StateObject private var model = LlamaState()
 
 	var body: some View {
@@ -35,19 +34,19 @@ struct ContentView: View {
 			HStack {
 				TextField("Insert prompt", text: $message)
 					.textFieldStyle(.roundedBorder)
-				Button(action: {
-					self.speechRecognizer.startRecognition()
-				}) {
-					Text("音声入力開始")
-				}
-				.padding()
-
-				Button(action: {
-					self.speechRecognizer.stopRecognition()
-				}) {
-					Text("音声入力停止")
-				}
-				.padding()
+//				Button(action: {
+//					self.speechRecognizer.startRecognition()
+//				}) {
+//					Text("Start hearing")
+//				}
+//				.padding()
+//
+//				Button(action: {
+//					self.speechRecognizer.stopRecognition()
+//				}) {
+//					Text("Stop hearing")
+//				}
+//				.padding()
 			}
 			HStack {
 				Button {
@@ -147,7 +146,8 @@ class SpeechSynthesizer {
 
 	func speak(_ text: String) {
 		let utterance = AVSpeechUtterance(string: text)
-		utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
+//		utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
+		utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
 		synthesizer.speak(utterance)
 	}
 }
