@@ -16,18 +16,36 @@ struct ContentView: View {
 
 	private var instruction: String {
 //        "Transcript of a dialog, where the User interacts with an AI Assistant named Alan. Alan is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision."
-		"以下は会話の書き起こしで、ユーザはHoaというAIアシスタントと会話しています。Hoaは優しく、正直で、役立ち、文章がうまく、決してユーザのリクエストに応えることに失敗せず、常に正確です。ユーモアもあります。Hoaはハワイ語で仲間という意味です。"
+//		"以下は会話の書き起こしで、ユーザはHoaというAIアシスタントと会話しています。Hoaは優しく、正直で、役立ち、文章がうまく、決してユーザのリクエストに応えることに失敗せず、常に正確です。ユーモアもあります。Hoaはハワイ語で仲間という意味です。"
+		"以下は会話の書き起こしで、ユーザはHoaというAIアシスタントと会話しています。Hoaはユーザのリクエストを正確に解釈して、最終的には次の選択肢のどれか１つを回答します。それ以外の回答はしません。選択肢は「上」、「下」、「右」、「左」、「奥」、「手前」です。"
 	}
 	private var chatExample: [LlamaState.ChatLog.Message] {
 		[
-			.init(role: .user, message: "やあHoa"),
-			.init(role: .ai, message: "こんにちは、何かお手伝いできることはありますか？"),
-			.init(role: .user, message: "ハワイ州で一番大きい島はどこ？"),
-			.init(role: .ai, message: "ハワイ島です。"),
-			.init(role: .ai, message: "ハワイの州都はオアフ島のホノルルです。"),
+			.init(role: .user, message: "あげて"),
+			.init(role: .ai, message: "上"),
+			.init(role: .user, message: "さげて"),
+			.init(role: .ai, message: "下"),
+			.init(role: .user, message: "向こうへ"),
+			.init(role: .ai, message: "奥"),
+			.init(role: .user, message: "こちらに持ってきて"),
+			.init(role: .ai, message: "手前"),
+			.init(role: .user, message: "右側へ移動"),
+			.init(role: .ai, message: "右"),
+			.init(role: .user, message: "左へ移動"),
+			.init(role: .ai, message: "左"),
+			.init(role: .user, message: "アップ"),
+			.init(role: .ai, message: "上"),
+			.init(role: .user, message: "ダウン"),
+			.init(role: .ai, message: "下"),
+//			.init(role: .user, message: "やあHoa"),
+//			.init(role: .ai, message: "こんにちは、何かお手伝いできることはありますか？"),
+//			.init(role: .user, message: "ハワイ州で一番大きい島はどこ？"),
+//			.init(role: .ai, message: "ハワイ島です。"),
+//			.init(role: .ai, message: "ハワイの州都はオアフ島のホノルルです。"),
 		]
 	}
-	@State private var message: String = "この時期に行くと良いハワイの観光スポットを1つ教えて"
+	@State private var message: String = ""
+//	@State private var message: String = "この時期に行くと良いハワイの観光スポットを1つ教えて"
 	@StateObject private var model = LlamaState()
 
 	var body: some View {
@@ -120,7 +138,8 @@ struct ContentView: View {
 					.onChange(of: self.model.isGenerating) { _ in
 						if self.model.isGenerating == false {
 							if self.response.count > 0 {
-								speechSynthesizer.speak(self.response)
+//								speechSynthesizer.speak(self.response)
+								self.message = ""
 							}
 						}
 					}
@@ -130,6 +149,7 @@ struct ContentView: View {
 		.padding()
 		.onAppear {
 			self.speechRecognizer.requestAccess {
+				self.speechRecognizer.startRecognition()
 			}
 			self.speechRecognizer.onResult = { result in
 				self.message = result
