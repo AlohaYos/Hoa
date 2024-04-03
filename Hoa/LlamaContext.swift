@@ -87,15 +87,15 @@ actor LlamaContext {
         let n_ctx = llama_n_ctx(context)
         let n_kv_req = tokens_list.count + (Int(n_len) - tokens_list.count)
 
-        print("n_len = \(n_len), n_ctx = \(n_ctx), n_kv_req = \(n_kv_req)")
+//        print("n_len = \(n_len), n_ctx = \(n_ctx), n_kv_req = \(n_kv_req)")
 
         if n_kv_req > n_ctx {
             print("error: n_kv_req > n_ctx, the required KV cache size is not big enough")
         }
 
-        for id in tokens_list {
-            print(String(cString: token_to_piece(token: id) + [0]))
-        }
+//        for id in tokens_list {
+//            print(String(cString: token_to_piece(token: id) + [0]))
+//        }
 
         llama_batch_clear(&batch)
         for i1 in 0..<tokens_list.count {
@@ -122,7 +122,7 @@ actor LlamaContext {
     }
 
     func completion_loop() -> CompletionStatus {
-        print("n_len = \(n_len), n_cur = \(n_cur)")
+//        print("n_len = \(n_len), n_cur = \(n_cur)")
         var new_token_id: llama_token = 0
 
         let n_vocab = llama_n_vocab(model)
@@ -170,7 +170,7 @@ actor LlamaContext {
         } else {
             new_token_str = ""
         }
-        print("n_cur: \(n_cur)", new_token_str)
+//        print("n_cur: \(n_cur)", new_token_str)
 
         llama_batch_clear(&batch)
         llama_batch_add(&batch, new_token_id, n_cur, [0], true)
@@ -186,7 +186,7 @@ actor LlamaContext {
     }
 
     func completion_loop_with_grammar(grammar: LlamaGrammar) -> CompletionStatus {
-        print("n_len = \(n_len), n_cur = \(n_cur)")
+//        print("n_len = \(n_len), n_cur = \(n_cur)")
         var new_token_id: llama_token = 0
 
         let n_vocab = llama_n_vocab(model)
@@ -238,7 +238,7 @@ actor LlamaContext {
         } else {
             new_token_str = ""
         }
-        print("n_cur: \(n_cur)", new_token_str)
+//        print("n_cur: \(n_cur)", new_token_str)
 
         llama_batch_clear(&batch)
         llama_batch_add(&batch, new_token_id, n_cur, [0], true)

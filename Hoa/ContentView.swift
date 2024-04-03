@@ -13,6 +13,8 @@ struct ContentView: View {
 	private let speechSynthesizer = SpeechSynthesizer()
 	private let speechRecognizer = SpeechRecognizer()
 	@State private var response = ""
+	@State private var responseTimer:Timer? = nil
+	@State private var responseInterval = 2.0
 
 	private var instruction: String {
 //        "Transcript of a dialog, where the User interacts with an AI Assistant named Alan. Alan is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision."
@@ -37,15 +39,14 @@ struct ContentView: View {
 			.init(role: .ai, message: "上"),
 			.init(role: .user, message: "ダウン"),
 			.init(role: .ai, message: "下"),
-//			.init(role: .user, message: "やあHoa"),
-//			.init(role: .ai, message: "こんにちは、何かお手伝いできることはありますか？"),
-//			.init(role: .user, message: "ハワイ州で一番大きい島はどこ？"),
-//			.init(role: .ai, message: "ハワイ島です。"),
-//			.init(role: .ai, message: "ハワイの州都はオアフ島のホノルルです。"),
+			.init(role: .user, message: "高いところ"),
+			.init(role: .ai, message: "上"),
+			.init(role: .user, message: "低い所"),
+			.init(role: .ai, message: "下"),
 		]
 	}
 	@State private var message: String = ""
-//	@State private var message: String = "この時期に行くと良いハワイの観光スポットを1つ教えて"
+	@State private var lastMessage: String = ""
 	@StateObject private var model = LlamaState()
 
 	var body: some View {
@@ -91,6 +92,7 @@ struct ContentView: View {
 				} else {
 					Button("Reset", systemImage: "repeat") {
 						self.model.refreshContext()
+						message = ""
 					}
 				}
 			}
@@ -128,8 +130,8 @@ struct ContentView: View {
 					.onChange(of: self.model.chatLog.messages) { _ in
 						if let msg = self.model.chatLog.messages.last {
 							if msg.role == .ai {
-								let speech = msg.message
-								print("# speech=\(speech)")
+//								let speech = msg.message
+//								print("# speech=\(speech)")
 
 								self.response = msg.message
 							}
@@ -149,10 +151,36 @@ struct ContentView: View {
 		.padding()
 		.onAppear {
 			self.speechRecognizer.requestAccess {
-				self.speechRecognizer.startRecognition()
 			}
 			self.speechRecognizer.onResult = { result in
-				self.message = result
+				self.message = result.bestTranscription.formattedString
+				print("recognizeResult: \(result)")
+//				let confidence = result.bestTranscription.segments[0].confidence
+//				let isFinal = confidence > 0.0 ? true : false
+//				if isFinal {
+//					print("recognize command")
+//					self.speechRecognizer.newLine()
+//					self.model.addChatMessage(self.message, instruction: instruction, example: chatExample, userMessagePrefix: "User:", aiMessagePrefix: "Hoa:")
+//					self.message = ""
+//				}
+			}
+
+			Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+				print("voice recognition start")
+				self.speechRecognizer.startRecognition()
+			}
+			self.responseTimer = Timer.scheduledTimer(withTimeInterval: responseInterval, repeats: true) { _ in
+				guard !self.message.isEmpty else { return }
+				if self.message == self.lastMessage {
+					print("recognize command")
+					self.message = ""
+					self.speechRecognizer.newLine()
+					self.model.addChatMessage(self.lastMessage, instruction: instruction, example: chatExample, userMessagePrefix: "User:", aiMessagePrefix: "Hoa:")
+					self.lastMessage = "---"
+				}
+				else {
+					self.lastMessage = self.message
+				}
 			}
 		}
 	}
@@ -183,7 +211,7 @@ class SpeechRecognizer: NSObject, SFSpeechRecognizerDelegate {
 	private let audioEngine = AVAudioEngine()
 	var isBufferReady = false
 
-	var onResult: ((String) -> Void)?
+	var onResult: ((SFSpeechRecognitionResult) -> Void)?
 
 	override init() {
 		super.init()
@@ -257,7 +285,7 @@ class SpeechRecognizer: NSObject, SFSpeechRecognizerDelegate {
 		recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
 			if let result = result {
 				DispatchQueue.main.async {
-					self.onResult?(result.bestTranscription.formattedString)
+					self.onResult?(result)
 				}
 			}
 		}
